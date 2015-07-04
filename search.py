@@ -6,6 +6,8 @@ import csv
 import os.path
 import smtplib
 from email.mime.text import MIMEText
+import sys
+
 
 def find_results(location, query):
 	home_url = "http://" + location + ".craigslist.org"
@@ -101,12 +103,17 @@ if __name__ == "__main__":
 	email_boo = True
 	location = "sfbay"
 	item = "arduino"
-	query = item.replace(" ", "+")
 	toaddr = "alanchen1st@gmail.com"
+
+	loc_in = raw_input("location? ")
+	if loc_in != "skip" and loc_in != "default":
+		location = loc_in
+		item = raw_input("item? ")
+		toaddr = raw_input("email? ")
+
+	query = item.replace(" ", "+")
 	results = find_results(location, query)
 	new_products = find_new(location, query, results)
-	# print results
-	# print new_products
 	if new_products:
 		update(location, query, new_products)
 		if email_boo:
