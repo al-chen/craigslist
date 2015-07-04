@@ -30,15 +30,12 @@ def find_results(location, query):
 			a_tag = item.find_all('a')[1]
 			product = a_tag.contents[0]
 			item_link = a_tag.get('href')
-			# item_link = item.find('a').get('href')
 			if item_link[0] == '/':
 				item_link = home_url + item_link
 			price = int(item.find('span', 'price').contents[0].lstrip('$'))
-			# print product, item_link, price
 			time_string = item.find('time').get('datetime')
 			timestruct = time.strptime(time_string, "%Y-%m-%d %H:%M")
 			dt = datetime.fromtimestamp(time.mktime(timestruct))
-			# print dt.date()
 			results.append([item_link, product, price, dt])
 		except:
 			print "***ERROR SOMEWHERE***", item_link
@@ -79,17 +76,11 @@ def email(location, item, new_products, toaddr):
 		content += str(dt) + "\n\n"
 	msg = MIMEText(content)
 
-	# fp = open("test_email.txt", 'rb')
-	# msg = MIMEText(fp.read())
-	# fp.close()
-
 	fromaddr = "larrybearrr@gmail.com"
 	username = 'larrybearrr'
 	password = 'pw12345678'
 
-
 	msg['Subject'] = item + " from " + location + ": Update at UTC " + str(datetime.utcnow())
-	# 'The contents of %s' % "test_email.txt"
 	msg['From'] = fromaddr
 	msg['To'] = toaddr
 
